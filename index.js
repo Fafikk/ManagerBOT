@@ -1,11 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, IntentsBitField } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ 
 	intents: [
-		GatewayIntentBits.Guilds
+		GatewayIntentBits.Guilds,
+		IntentsBitField.Flags.Guilds
 	]
 });
 
@@ -48,6 +49,32 @@ client.on(Events.InteractionCreate, async interaction => {
 			await interaction.reply({ content: 'Wystąpił błąd podczas wykonywania tej komendy.', ephemeral: true });
 		}
 	}
+});
+
+const activities = [
+    { name: 'BOT maintained by Fafikk', type: ActivityType.Playing },
+    { name: `${client.guilds.cache.size} serwerów`, type: ActivityType.Watching }
+];
+
+let currentActivityIndex = 0;
+
+client.on('ready', () => {
+
+    // Funkcja zmieniająca status co 10 sekund
+    const updateActivity = () => {
+        const activity = activities[currentActivityIndex];
+
+        // Zaktualizuj nazwę aktywności typu Watching
+        if (activity.type === ActivityType.Watching) {
+            activity.name = `${client.guilds.cache.size} serwerów`;
+        }
+
+        client.user.setPresence({ activities: [activity], status: 'online' });
+        currentActivityIndex = (currentActivityIndex + 1) % activities.length;
+    };
+
+    // Wywołaj funkcję updateActivity co 10 sekund
+    setInterval(updateActivity, 5000);
 });
 
 client.once(Events.ClientReady, readyClient => {
