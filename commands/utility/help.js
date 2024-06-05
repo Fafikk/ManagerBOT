@@ -12,7 +12,7 @@ module.exports = {
 		const embed = new EmbedBuilder()
             .setAuthor({ name: interaction.user.username, iconURL: interaction.user.displayAvatarURL() })
             .setTitle('Dostępne komendy:')
-            .setDescription('**Inne:**```/ping, /embed, /help```')
+            .setDescription('**Inne:**```/ping, /embed, /help, /status```')
             .setTimestamp()
             .setColor([random1, random2, random3]);
 
