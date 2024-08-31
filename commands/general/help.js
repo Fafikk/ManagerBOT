@@ -15,7 +15,7 @@ module.exports = {
                 iconURL: interaction.user.displayAvatarURL(),
             })
             .setTitle('Dostępne komendy')
-            .setDescription('**Inne:**```/ping, /embed, /help, /status```')
+            .setDescription('**Ogólne:**```/help, /embed, /ping, /status```')
             .setTimestamp()
             .setColor([random1, random2, random3])
 
