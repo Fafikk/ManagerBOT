@@ -10,13 +10,13 @@ module.exports = {
         .setDescription('Tworzy embed z powodem maintenance`u')
         .addStringOption((option) =>
             option
-                .setName('reason')
+                .setName('treść')
                 .setDescription('Powód maintenance`u')
                 .setRequired(true),
         )
         .addStringOption((option) =>
             option
-                .setName('end')
+                .setName('koniec')
                 .setDescription('Planowany koniec przerwy technicznej')
                 .setRequired(true),
         ),
@@ -34,8 +34,8 @@ module.exports = {
             })
         }
 
-        const reason = interaction.options.getString('reason')
-        const end = interaction.options.getString('end')
+        const reason = interaction.options.getString('treść')
+        const end = interaction.options.getString('koniec')
 
         const embed = new EmbedBuilder()
             .setTitle('Przerwa techniczna!')
