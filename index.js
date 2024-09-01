@@ -6,14 +6,17 @@ const {
     Events,
     GatewayIntentBits,
     ActivityType,
-    IntentsBitField,
+    Partials
 } = require('discord.js')
 const { TOKEN } = require('./config.js')
 
 require('dotenv').config()
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds, IntentsBitField.Flags.Guilds],
+    intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildIntegrations, GatewayIntentBits.GuildWebhooks, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.GuildScheduledEvents, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent ],
+    partials: [ Partials.Channel, Partials.GuildMember, Partials.GuildScheduledEvent, Partials.Message, Partials.Reaction, Partials.ThreadMember, Partials.User ],
+    restTimeOffset: 0,
+    failIfNotExists: false
 })
 
 client.commands = new Collection()
@@ -33,7 +36,7 @@ for (const folder of commandFolders) {
             client.commands.set(command.data.name, command)
         } else {
             console.log(
-                `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+                `[WARNING] W komendzie ${filePath} brakuje a wymaganych "data" lub "execute" właściwości.`,
             )
         }
     }
@@ -76,6 +79,8 @@ const activities = [
 let currentActivityIndex = 0
 
 client.on('ready', () => {
+    require('./handler')(client);
+
     const updateActivity = () => {
         const activity = activities[currentActivityIndex]
 
@@ -88,7 +93,7 @@ client.on('ready', () => {
     }
 
     setInterval(updateActivity, 5000)
-    console.log(`Connected to websocket as ${client.user.tag}`)
+    console.log(`Połączono z websocket jako ${client.user.tag}`)
 })
 
 client.login(TOKEN)

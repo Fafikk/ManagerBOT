@@ -2,6 +2,11 @@
 
 `ManagerBOT` is a free, self-hosted, open source Discord bot, written using discord.js v14, that may help You manage your Discord server.
 
+# Features
+- General commands
+- Moderation
+- Tickets
+
 # Commands
 
 -   `/ping`: Display the bot's current latency.
@@ -24,32 +29,34 @@
 # Installation
 
 1. Clone the git repository
-
 ```git
 git clone https://github.com/Fafikk/ManagerBOT.git
 ```
 
 2. Install node dependencies
-
 ```bash
 npm install
 ```
 
 3. Copy environment file
-
 ```bash
 cp .env.example .env
 ```
 
-4. Replace `TOKEN` and `CLIENT_ID` in `.env` with you application token and client ID from [Discord Developer Portal](https://discord.com/developers/applications)
-5. Deploy slash commands to Your bot
+4. Replace values in `.env`:
+- `TOKEN` with you application token from [Discord Developer Portal](https://discord.com/developers/applications),
+- `CLIENT_ID` with you client ID from [Discord Developer Portal](https://discord.com/developers/applications),
+- `ticket_channel` with channel ID where you want to have message with button, that create's ticket,
+- `ticket_category` with category ID where you want to have open ticket as channels,
+- `ticket_logs` with channel ID where you want to save logs, after closing ticket,
+- `support_team` with role ID that the administrators in charge of the tickets have.
 
+5. Deploy slash commands to Your bot
 ```bash
 node deploy.js
 ```
 
 6. Start the bot
-
 ```bash
 node index.js
 ```
