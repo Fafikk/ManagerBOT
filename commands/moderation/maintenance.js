@@ -7,20 +7,27 @@ const {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('maintenance')
-        .setDescription('Tworzy embed z powodem maintenance`u')
+        .setDescription('Tworzy embed z informacjami o przerwie technicznej')
         .addStringOption((option) =>
             option
-                .setName('treść')
-                .setDescription('Powód maintenance`u')
+                .setName('powód')
+                .setDescription('Powód przerwy technicznej')
+                .setRequired(true),
+        )
+        .addIntegerOption((option) =>
+            option
+                .setName('koniec')
+                .setDescription(
+                    'Planowany koniec przerwy technicznej. Użyj unixtimestamp.com',
+                )
                 .setRequired(true),
         )
         .addStringOption((option) =>
             option
-                .setName('koniec')
-                .setDescription('Planowany koniec przerwy technicznej')
+                .setName('usługi')
+                .setDescription('Dotknięte usługi')
                 .setRequired(true),
         ),
-
     async execute(interaction) {
         if (
             !interaction.member.permissions.has(
@@ -34,8 +41,17 @@ module.exports = {
             })
         }
 
-        const reason = interaction.options.getString('treść')
-        const end = interaction.options.getString('koniec')
+        const reason = interaction.options.getString('powód')
+        const endTimestamp = interaction.options.getInteger('koniec')
+        const services = interaction.options.getString('usługi')
+
+        if (endTimestamp < Math.floor(Date.now() / 1000)) {
+            return interaction.reply({
+                content:
+                    'Podany timestamp jest w przeszłości. Użyj przyszłego czasu. Możesz wygenerować poprawny timestamp na stronie: https://www.unixtimestamp.com',
+                ephemeral: true,
+            })
+        }
 
         const embed = new EmbedBuilder()
             .setTitle('Przerwa techniczna!')
@@ -43,9 +59,12 @@ module.exports = {
                 name: interaction.user.username,
                 iconURL: interaction.user.displayAvatarURL(),
             })
-            .addFields(
-                { name: 'Powód przerwy technicznej', value: reason },
-                { name: 'Planowany koniec przerwy technicznej', value: end },
+            .setDescription(
+                `
+- Powód przerwy technicznej: **${reason}**
+- Planowany koniec przerwy: <t:${endTimestamp}:F> (<t:${endTimestamp}:R>)
+- Dotknięte usługi: **${services}**
+          `,
             )
             .setTimestamp()
             .setColor([255, 0, 0])

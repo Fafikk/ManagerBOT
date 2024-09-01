@@ -17,9 +17,14 @@ module.exports = {
         .setDMPermission(false),
 
     async execute(interaction) {
-        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
+        if (
+            !interaction.member.permissions.has(
+                PermissionFlagsBits.ManageMessages,
+            )
+        ) {
             return interaction.reply({
-                content: 'Nie masz uprawnień do używania tej komendy (wymagane: **Zarządzanie wiadomościami**).',
+                content:
+                    'Nie masz uprawnień do używania tej komendy (wymagane: **Zarządzanie wiadomościami**).',
                 ephemeral: true,
             })
         }
@@ -33,11 +38,18 @@ module.exports = {
         })
 
         try {
-            const messages = await channel.bulkDelete(amountMessagesToDelete, true)
-            await interaction.editReply(`Usunięto **${messages.size}** wiadomości.`)
+            const messages = await channel.bulkDelete(
+                amountMessagesToDelete,
+                true,
+            )
+            await interaction.editReply(
+                `Usunięto **${messages.size}** wiadomości.`,
+            )
         } catch (error) {
             console.error(error)
-            await interaction.editReply('Wystąpił błąd podczas usuwania wiadomości.')
+            await interaction.editReply(
+                'Wystąpił błąd podczas usuwania wiadomości.',
+            )
         }
     },
 }
