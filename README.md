@@ -11,8 +11,8 @@
 -   `/userinfo`: Show details about a specified user or the command issuer.
 -   `/embed`: (Admin only) Create and send a custom embed message.
 -   `/maintenance`: (Admin only) Enable maintenance mode, restricting bot access.
--   `/clear`: Remove a specified number of recent messages from the channel.
--   `/online`: Disable maintenance mode and resume normal bot operations.
+-   `/clear`: (Admin only) Remove a specified number of recent messages from the channel.
+-   `/online`: (Admin only) Disable maintenance mode and resume normal operations.
 -   `/status`: Check the current status of services and features.
 
 # Required dependencies
@@ -41,14 +41,14 @@ npm install
 cp .env.example .env
 ```
 
-4. Replace `TOKEN` and `CLIENT_ID` in `.env` with you application token and client ID from [Discord Developer Portal](https://discord.com/developers/applications).
-5. Deploy slash commands to Your bot.
+4. Replace `TOKEN` and `CLIENT_ID` in `.env` with you application token and client ID from [Discord Developer Portal](https://discord.com/developers/applications)
+5. Deploy slash commands to Your bot
 
 ```bash
 node deploy.js
 ```
 
-6. Start the bot:
+6. Start the bot
 
 ```bash
 node index.js

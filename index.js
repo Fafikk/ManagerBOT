@@ -70,7 +70,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 const activities = [
     // add more activities if you want | dodaj wiecej aktywnosci jesli chcesz
     { name: 'Minecraft', type: ActivityType.Playing },
-    { name: `panel klienta`, type: ActivityType.Watching },
+    { name: 'panel klienta', type: ActivityType.Watching },
 ]
 
 let currentActivityIndex = 0

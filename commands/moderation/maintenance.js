@@ -62,7 +62,7 @@ module.exports = {
             .setDescription(
                 `
 - Powód przerwy technicznej: **${reason}**
-- Planowany koniec przerwy: <t:${endTimestamp}:F> (<t:${endTimestamp}:R>)
+- Planowany koniec przerwy: (<t:${endTimestamp}:R>)
 - Dotknięte usługi: **${services}**
           `,
             )

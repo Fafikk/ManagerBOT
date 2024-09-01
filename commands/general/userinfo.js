@@ -21,7 +21,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(member.displayHexColor || 0x0099ff)
-            .setTitle(`${target.tag}'s Information`)
+            .setTitle(`Informacje o ${target.tag}`)
             .setThumbnail(
                 target.displayAvatarURL({ dynamic: true, size: 1024 }),
             )
@@ -70,7 +70,7 @@ module.exports = {
                 },
             )
             .setFooter({
-                text: `Zapytano przez ${interaction.user.tag}`,
+                text: `Na żądanie ${interaction.user.tag}`,
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
             })
             .setTimestamp()
