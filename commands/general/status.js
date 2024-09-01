@@ -9,8 +9,8 @@ module.exports = {
     async execute(interaction) {
         function check_minecraft() {
             return new Promise((resolve, reject) => {
-                const ip = '' // reminder to change this | przypominam ze musisz to zmienic na swoje ip
-                const port = 25565 // reminder to change this | przypominam ze musisz to zmienic na swoj port
+                const ip = ''
+                const port = 25565
 
                 const socket = new net.Socket()
                 const startTime = Date.now()
@@ -39,8 +39,8 @@ module.exports = {
 
         function check_site() {
             return new Promise((resolve, reject) => {
-                const ip = '' // reminder to change this | przypominam ze musisz to zmienic na swoje ip
-                const port = 80 // reminder to change this | przypominam ze musisz to zmienic na swoj port
+                const ip = ''
+                const port = 80
 
                 const socket = new net.Socket()
                 const startTime = Date.now()
