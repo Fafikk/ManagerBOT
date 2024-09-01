@@ -21,7 +21,7 @@ for (const folder of commandFolders) {
             commands.push(command.data.toJSON())
         } else {
             console.log(
-                `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+                `[WARNING] W komendze ${filePath} brakuje wymaganej "data" lub "execute" właściwości.`,
             )
         }
     }
@@ -32,7 +32,7 @@ const rest = new REST().setToken(TOKEN)
 ;(async () => {
     try {
         console.log(
-            `Started refreshing ${commands.length} application (/) commands.`,
+            `Rozpoczęto odświeżanie ${commands.length} slash (/) komend.`,
         )
 
         const data = await rest.put(Routes.applicationCommands(CLIENT_ID), {
@@ -40,7 +40,7 @@ const rest = new REST().setToken(TOKEN)
         })
 
         console.log(
-            `Successfully reloaded ${data.length} application (/) commands globally.`,
+            `Poprawnie odświeżono ${data.length} slash (/) komend globalnie.`,
         )
     } catch (error) {
         console.error(error)

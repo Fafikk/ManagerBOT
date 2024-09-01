@@ -13,7 +13,7 @@ module.exports = {
         if (interaction.customId === 'ticket') {
             // Create a new channel for the ticket
             interaction.guild.channels.create({
-                name: `Select a category`,
+                name: `Wybierz kategorię`,
                 type: ChannelType.GuildText,
                 parent: process.env.ticket_category, // Use environment variable
                 permissionOverwrites: [
@@ -31,8 +31,8 @@ module.exports = {
                 // Send the initial message with category selection
                 channel.send({
                     embeds: [{
-                        title: "Ticket System",
-                        description: "Please select a category for your ticket!",
+                        title: "Zgłoszenia",
+                        description: "Proszę wybrać kategorię zgłoszenia!",
                         color: Colors.Blurple,
                     }],
                     components: [
@@ -40,23 +40,25 @@ module.exports = {
                             .addComponents(
                                 new StringSelectMenuBuilder()
                                     .setCustomId('category')
-                                    .setPlaceholder('Select a category')
+                                    .setPlaceholder('Wybierz kategorię')
                                     .addOptions([
                                         {
-                                            label: 'Report',
-                                            description: 'Report a user',
-                                            value: 'report',
+                                            label: 'Pomoc ogólna',
+                                            value: 'ogolne',
                                             emoji: '🐛'
                                         },
                                         {
-                                            label: 'Question',
-                                            description: 'Any question',
-                                            value: 'question',
-                                            emoji: '📝'
+                                            label: 'Płatności',
+                                            value: 'platnosci',
+                                            emoji: '💰'
                                         },
                                         {
-                                            label: 'Other',
-                                            description: 'Other',
+                                            label: 'Współpraca',
+                                            value: 'wspolpraca',
+                                            emoji: '💼'
+                                        },
+                                        {
+                                            label: 'Żadne z powyższych',
                                             value: 'other',
                                             emoji: '📁'
                                         }
@@ -77,7 +79,7 @@ module.exports = {
 
             // Send a reply to the user confirming ticket creation
             interaction.reply({
-                content: `:white_check_mark: | Your ticket has been created!`,
+                content: `:white_check_mark: | Twój ticket został utworzony!`,
                 ephemeral: true
             });
         }

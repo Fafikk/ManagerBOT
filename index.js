@@ -6,7 +6,6 @@ require('dotenv').config();
 
 const { TOKEN } = require('./config.js');
 
-// Create a new Discord client instance
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds, GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildEmojisAndStickers, 
@@ -45,7 +44,7 @@ for (const folder of commandFolders) {
         if ('data' in command && 'execute' in command) {
             client.commands.set(command.data.name, command);
         } else {
-            console.log(`[WARNING] Command ${filePath} is missing required "data" or "execute" properties.`);
+            console.log(`[WARNING] W komendze ${filePath} brakuje wymaganej "data" lub "execute" właściwości.`);
         }
     }
 }
@@ -67,12 +66,12 @@ client.on(Events.InteractionCreate, async (interaction) => {
         console.error(error);
         if (interaction.replied || interaction.deferred) {
             await interaction.followUp({
-                content: 'An error occurred while executing this command.',
+                content: 'Wystąpił błąd podczas wykonywania komendy.',
                 ephemeral: true,
             });
         } else {
             await interaction.reply({
-                content: 'An error occurred while executing this command.',
+                content: 'Wystąpił błąd podczas wykonywania komendy.',
                 ephemeral: true,
             });
         }
@@ -92,9 +91,6 @@ let currentActivityIndex = 0;
 
 const updateActivity = () => {
     const activity = activities[currentActivityIndex];
-    if (activity.type === ActivityType.Watching) {
-        activity.name = `${client.guilds.cache.size} servers`;
-    }
 
     client.user.setPresence({ activities: [activity], status: 'dnd' });
     currentActivityIndex = (currentActivityIndex + 1) % activities.length;
@@ -103,7 +99,7 @@ const updateActivity = () => {
 client.on('ready', () => {
     updateActivity();
     setInterval(updateActivity, 5000);
-    console.log(`Connected to websocket as ${client.user.tag}`);
+    console.log(`Połączono z websocket jako ${client.user.tag}`);
 });
 
 // Error handling

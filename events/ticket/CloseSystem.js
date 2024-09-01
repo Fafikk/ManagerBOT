@@ -14,26 +14,26 @@ module.exports = {
         if (interaction.customId === "close") {
             // Confirm ticket closure
             interaction.reply({
-                content: `Are you sure you want to delete the ticket?`,
+                content: `Ten ticket zostanie usunięty.`,
                 ephemeral: true,
             });
 
             // Prompt user for transcript choice
             interaction.channel.send({
                 embeds: [{
-                    title: "Ticket System",
-                    description: "The ticket will be closed. Do you want the transcript of it?",
+                    title: "Zgłoszenia",
+                    description: "Ten ticket zostanie usunięty. Czy chcesz zapisać jego logi?",
                     color: Colors.Blurple,
                     footer: {
-                        text: "Ticket System"
-                    },
-                    timestamp: new Date()
+                        text: "© 2024 YourCompany",
+                        iconURL: client.user.displayAvatarURL(),
+                    }
                 }],
                 components: [
                     new ActionRowBuilder()
                         .addComponents(
-                            new ButtonBuilder().setCustomId('yes').setLabel('Yes').setStyle(ButtonStyle.Success),
-                            new ButtonBuilder().setCustomId('no').setLabel('No').setStyle(ButtonStyle.Danger)
+                            new ButtonBuilder().setCustomId('yes').setLabel('Tak').setStyle(ButtonStyle.Success),
+                            new ButtonBuilder().setCustomId('no').setLabel('Nie').setStyle(ButtonStyle.Danger)
                         )
                 ]
             });
@@ -42,20 +42,20 @@ module.exports = {
             const ticketLogsChannel = client.channels.cache.get(process.env.ticket_logs);
 
             if (!ticketLogsChannel) {
-                console.error(`[ERROR] Ticket logs channel with ID ${process.env.ticket_logs} not found.`);
+                console.error(`[ERROR] Nie odnaleziono kanału z logami ticketów o ID ${process.env.ticket_logs}.`);
                 return;
             }
 
             // Send transcript to logs channel and delete ticket channel
             await ticketLogsChannel.send({
                 embeds: [{
-                    title: "Ticket System",
-                    description: `New ticket closed (${interaction.channel.name}) by ${interaction.user}`,
+                    title: "Zgłoszenia",
+                    description: `Nowy ticket został zamknięty (${interaction.channel.name}) przez ${interaction.user}`,
                     color: Colors.Blurple,
                     footer: {
-                        text: "Ticket System"
-                    },
-                    timestamp: new Date()
+                        text: "© 2024 YourCompany",
+                        iconURL: client.user.displayAvatarURL(),
+                    }
                 }],
                 files: [await transcript.createTranscript(interaction.channel)]
             });
@@ -63,12 +63,11 @@ module.exports = {
             await interaction.channel.send({
                 embeds: [{
                     title: "Ticket System",
-                    description: `Ticket closed by ${interaction.user}`,
+                    description: `Ticket zamknięty przez ${interaction.user}`,
                     color: Colors.Blurple,
                     footer: {
                         text: "Ticket System"
-                    },
-                    timestamp: new Date()
+                    }
                 }]
             });
 
@@ -78,12 +77,11 @@ module.exports = {
             interaction.channel.send({
                 embeds: [{
                     title: "Ticket System",
-                    description: `Ticket closed by ${interaction.user}`,
+                    description: `Ticket zamknięty przez ${interaction.user}`,
                     color: Colors.Blurple,
                     footer: {
                         text: "Ticket System"
-                    },
-                    timestamp: new Date()
+                    }
                 }]
             });
 

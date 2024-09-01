@@ -12,12 +12,13 @@ module.exports = {
 
         // Get the support team ID from environment variables
         const supportTeamId = process.env.support_team;
+        const color = parseInt('08f4ff', 16);
 
         // Check if user already has an open ticket
         const existingTicketChannel = interaction.guild.channels.cache.find(c => c.topic === interaction.user.id);
         if (existingTicketChannel) {
             return interaction.reply({
-                content: ":x: | You already have a ticket open!",
+                content: ":x: | Masz już otwarty ticket!",
                 ephemeral: true
             });
         }
@@ -29,7 +30,7 @@ module.exports = {
 
             // Create a new ticket channel
             interaction.guild.channels.create({
-                name: `Ticket of ${interaction.user.username}`,
+                name: `Ticket użytkownika ${interaction.user.username}`,
                 topic: interaction.user.id,
                 type: ChannelType.GuildText,
                 parent: process.env.ticket_category,
@@ -53,18 +54,18 @@ module.exports = {
                 // Send ticket creation message
                 channel.send({
                     embeds: [{
-                        title: "Ticket System",
-                        description: `Welcome to your ticket ${interaction.user}!\nA staff member will assist you shortly.`,
-                        color: Colors.Blurple,
+                        title: "Zgłoszenia",
+                        description: `🩵 **Zgłoszenie użytkownika ${interaction.user} zostało pomyślnie utworzone!** \n\nDziękujemy za zgłoszenie, nasz zespół zajmie się Twoim problemem w możliwie najkrótszym czasie.\n\n- \`Typ zgłoszenia:\` **${type}**\n\n**Info!** Prosimy o cierpliwość i dziękujemy za zrozumienie.\n**Uwaga!** Nie pinguj administracji, ponieważ może to skutkować karą wyciszenia.`,
+                        color: color,
                         footer: {
-                            text: "Ticket System"
-                        },
-                        timestamp: new Date()
+                            text: "© 2024 YourCompany",
+                            iconURL: client.user.displayAvatarURL(),
+                        }
                     }],
                     components: [
                         new ActionRowBuilder()
                             .addComponents(
-                                new ButtonBuilder().setCustomId('close').setLabel('Close').setStyle(ButtonStyle.Danger)
+                                new ButtonBuilder().setCustomId('close').setLabel('Zamknij ticketa').setStyle(ButtonStyle.Danger)
                             )
                     ]
                 });
@@ -82,14 +83,17 @@ module.exports = {
 
         // Handle different ticket types
         switch (interaction.values[0]) {
-            case 'report':
-                createTicketChannel('report');
+            case 'ogolne':
+                createTicketChannel('Pomoc ogólna');
                 break;
-            case 'question':
-                createTicketChannel('question');
+            case 'platnosci':
+                createTicketChannel('Płatności');
+                break;
+            case 'wspolpraca':
+                createTicketChannel('Współpraca');
                 break;
             case 'other':
-                createTicketChannel('other');
+                createTicketChannel('Żadne z powyższych');
                 break;
         }
     }

@@ -11,7 +11,7 @@ module.exports = (client) => {
             for (const file of events) {
                 const event = require(`../${dir}/${dirs}/${file}`);
                 client.on(event.name, (...args) => event.execute(...args, client));
-                console.log(`[EVENTS]`.bold.red + ` Loading event :`.bold.white + ` ${event.name}`.bold.red);
+                console.log(`[EVENTS]`.bold.red + ` Ładowanie eventu :`.bold.white + ` ${event.name}`.bold.red);
             }
         });
     };
