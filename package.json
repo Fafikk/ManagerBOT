@@ -1,16 +1,16 @@
 {
-    "name": "managerbot",
-    "license": "ISC",
-    "version": "2.0.0",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon index.js"
-    },
-    "dependencies": {
-        "colors": "^1.4.0",
-        "discord-html-transcripts": "^3.2.0",
-        "discord.js": "^14.15.3",
-        "dotenv": "^16.4.5"
-    }
+  "name": "managerbot",
+  "license": "ISC",
+  "version": "2.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord-html-transcripts": "^3.2.0",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
 }
