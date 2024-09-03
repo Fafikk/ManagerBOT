@@ -21,7 +21,7 @@ module.exports = {
             // Prompt user for transcript choice
             interaction.channel.send({
                 embeds: [{
-                    title: "Zgłoszenia",
+                    title: "Tickety",
                     description: "Ten ticket zostanie usunięty. Czy chcesz zapisać jego logi?",
                     color: Colors.Blurple,
                     footer: {

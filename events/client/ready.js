@@ -16,8 +16,8 @@ module.exports = {
 
         await channelTicket.send({
             embeds: [{
-                title: "Zgłoszenia",
-                description: "> Aby stworzyć zgłoszenie, kliknij przycisk poniżej. Pamiętaj, że na raz możesz mieć otwarty tylko jeden ticket! W tickecie prosimy o nie oznaczanie administracji.",
+                title: "Tickety",
+                description: "> Aby otworzyć ticketa kliknij poniższy przycisk.",
                 color: color,
                 footer: {
                     text: "© 2024 YourCompany",

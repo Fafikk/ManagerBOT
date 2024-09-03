@@ -55,7 +55,7 @@ module.exports = {
                 channel.send({
                     embeds: [{
                         title: "Zgłoszenia",
-                        description: `🩵 **Zgłoszenie użytkownika ${interaction.user} zostało pomyślnie utworzone!** \n\nDziękujemy za zgłoszenie, nasz zespół zajmie się Twoim problemem w możliwie najkrótszym czasie.\n\n- \`Typ zgłoszenia:\` **${type}**\n\n**Info!** Prosimy o cierpliwość i dziękujemy za zrozumienie.\n**Uwaga!** Nie pinguj administracji, ponieważ może to skutkować karą wyciszenia.`,
+                        description: `**Ticket użytkownika ${interaction.user} zostało pomyślnie utworzony!** \n\n- \`Typ ticketa:\` **${type}**`,
                         color: color,
                         footer: {
                             text: "© 2024 YourCompany",
