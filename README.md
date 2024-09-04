@@ -9,16 +9,16 @@
 
 # Commands
 
--   `/ping`: Display the bot's current latency.
--   `/help`: Show a list of available bot commands and their descriptions.
--   `/serverinfo`: Provide detailed information about the current Discord server.
--   `/botinfo`: Display information about the bot, including version and uptime.
--   `/userinfo`: Show details about a specified user or the command issuer.
--   `/embed`: (Admin only) Create and send a custom embed message.
--   `/maintenance`: (Admin only) Enable maintenance mode, restricting bot access.
--   `/clear`: (Admin only) Remove a specified number of recent messages from the channel.
--   `/online`: (Admin only) Disable maintenance mode and resume normal operations.
--   `/status`: Check the current status of services and features.
+- `/ping`: Display the bot's current latency.
+- `/help`: Show a list of available bot commands and their descriptions.
+- `/serverinfo`: Provide detailed information about the current Discord server.
+- `/botinfo`: Display information about the bot, including version and uptime.
+- `/userinfo`: Show details about a specified user or the command issuer.
+- `/embed`: (Admin only) Create and send a custom embed message.
+- `/maintenance`: (Admin only) Enable maintenance mode, restricting bot access.
+- `/clear`: (Admin only) Remove a specified number of recent messages from the channel.
+- `/online`: (Admin only) Disable maintenance mode and resume normal operations.
+- `/status`: Check the current status of services and features.
 
 # Required dependencies
 
@@ -49,7 +49,8 @@ cp .env.example .env
 - `ticket_channel` with channel ID where you want to have message with button, that create's ticket,
 - `ticket_category` with category ID where you want to have open ticket as channels,
 - `ticket_logs` with channel ID where you want to save logs, after closing ticket,
-- `support_team` with role ID that the administrators in charge of the tickets have.
+- `support_team` with role ID that the administrators in charge of the tickets have,
+- `blacklist_role` with role ID that the blacklisted users have.
 
 5. Deploy slash commands to Your bot
 ```bash
