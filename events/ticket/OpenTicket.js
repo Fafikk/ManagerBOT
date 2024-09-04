@@ -9,8 +9,8 @@ module.exports = {
     execute: async (interaction, client) => {
         // Only handle string select menu interactions
         if (!interaction.isStringSelectMenu()) return;
+        if (interaction.customId !== 'ticket_category') return;
 
-        // Get the support team ID from environment variables
         const supportTeamId = process.env.support_team;
         const color = parseInt('08f4ff', 16);
 
@@ -23,12 +23,7 @@ module.exports = {
             });
         }
 
-        // Function to create a ticket channel
         const createTicketChannel = async (type) => {
-            // Delete the interaction channel
-            await interaction.channel.delete();
-
-            // Create a new ticket channel
             interaction.guild.channels.create({
                 name: `Ticket użytkownika ${interaction.user.username}`,
                 topic: interaction.user.id,
@@ -51,7 +46,6 @@ module.exports = {
                     }
                 ]
             }).then((channel) => {
-                // Send ticket creation message
                 channel.send({
                     embeds: [{
                         title: "Zgłoszenia",
@@ -70,7 +64,6 @@ module.exports = {
                     ]
                 });
 
-                // Notify support team
                 channel.send({
                     content: `${interaction.user} <@${supportTeamId}>`
                 }).then(msg => {
@@ -81,20 +74,30 @@ module.exports = {
             });
         };
 
-        // Handle different ticket types
+        let ticket_type = "";
         switch (interaction.values[0]) {
             case 'ogolne':
                 createTicketChannel('Pomoc ogólna');
+                ticket_type = "Pomoc ogólna";
                 break;
             case 'platnosci':
                 createTicketChannel('Płatności');
+                ticket_type = "Płatności";
                 break;
             case 'wspolpraca':
                 createTicketChannel('Współpraca');
+                ticket_type = "Współpraca";
                 break;
-            case 'other':
+            case 'inne':
                 createTicketChannel('Żadne z powyższych');
+                ticket_type = "Żadne z powyższych";
                 break;
         }
+
+        // Send a reply to the user confirming ticket creation
+        interaction.reply({
+            content: `:white_check_mark: | Twój ticket został utworzony w kategorii: **${ticket_type}**!`,
+            ephemeral: true
+        });
     }
 };
