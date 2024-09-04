@@ -12,7 +12,16 @@ module.exports = {
         if (interaction.customId !== 'ticket_category') return;
 
         const supportTeamId = process.env.support_team;
+        const blacklistRoleId = process.env.blacklist_role;
         const color = parseInt('08f4ff', 16);
+
+        // Check if user has the blacklist role
+        if (interaction.member.roles.cache.has(blacklistRoleId)) {
+            return interaction.reply({
+                content: ":x: | Nie masz uprawnień do tworzenia ticketów, ponieważ jesteś na blackliście!",
+                ephemeral: true
+            });
+        }
 
         // Check if user already has an open ticket
         const existingTicketChannel = interaction.guild.channels.cache.find(c => c.topic === interaction.user.id);
@@ -23,6 +32,7 @@ module.exports = {
             });
         }
 
+        // Function to create a ticket channel
         const createTicketChannel = async (type) => {
             interaction.guild.channels.create({
                 name: `Ticket użytkownika ${interaction.user.username}`,
@@ -49,7 +59,7 @@ module.exports = {
                 channel.send({
                     embeds: [{
                         title: "Zgłoszenia",
-                        description: `**Ticket użytkownika ${interaction.user} zostało pomyślnie utworzony!** \n\n- \`Typ ticketa:\` **${type}**`,
+                        description: `**Ticket użytkownika ${interaction.user} zostało pomyślnie utworzone!** \n\n- \`Typ ticketa:\` **${type}**`,
                         color: color,
                         footer: {
                             text: "© 2024 YourCompany",
@@ -74,28 +84,29 @@ module.exports = {
             });
         };
 
+        // Determine ticket type and create the appropriate ticket channel
         let ticket_type = "";
         switch (interaction.values[0]) {
             case 'ogolne':
-                createTicketChannel('Pomoc ogólna');
+                await createTicketChannel('Pomoc ogólna');
                 ticket_type = "Pomoc ogólna";
                 break;
             case 'platnosci':
-                createTicketChannel('Płatności');
+                await createTicketChannel('Płatności');
                 ticket_type = "Płatności";
                 break;
             case 'wspolpraca':
-                createTicketChannel('Współpraca');
+                await createTicketChannel('Współpraca');
                 ticket_type = "Współpraca";
                 break;
             case 'inne':
-                createTicketChannel('Żadne z powyższych');
+                await createTicketChannel('Żadne z powyższych');
                 ticket_type = "Żadne z powyższych";
                 break;
         }
 
         // Send a reply to the user confirming ticket creation
-        interaction.reply({
+        await interaction.reply({
             content: `:white_check_mark: | Twój ticket został utworzony w kategorii: **${ticket_type}**!`,
             ephemeral: true
         });
