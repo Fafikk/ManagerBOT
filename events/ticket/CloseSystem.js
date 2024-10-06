@@ -1,91 +1,60 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors } = require('discord.js');
-const transcript = require('discord-html-transcripts');
+const {
+  Colors,
+} = require('discord.js')
+const transcript = require('discord-html-transcripts')
+const { TICKET_LOGS } = require('../../config.js')
 
-// Load environment variables
-require('dotenv').config();
+require('dotenv').config()
 
 module.exports = {
-    name: 'interactionCreate',
-    once: false,
-    execute: async (interaction, client) => {
-        // Only handle button interactions
-        if (!interaction.isButton()) return;
+  name: 'interactionCreate',
+  once: false,
+  execute: async (interaction, client) => {
+    // Check if the interaction is a button
+    if (!interaction.isButton()) return
 
-        if (interaction.customId === "close") {
-            // Confirm ticket closure
-            interaction.reply({
-                content: `Ten ticket zostanie usunięty.`,
-                ephemeral: true,
-            });
+    // Handle ticket closure
+    if (interaction.customId === 'close') {
+      await interaction.reply({
+        content: 'Ticket zostanie zamknięty za 5 sekund. Logi zostały zapisane.',
+        ephemeral: true,
+      });
 
-            // Prompt user for transcript choice
-            interaction.channel.send({
-                embeds: [{
-                    title: "Tickety",
-                    description: "Ten ticket zostanie usunięty. Czy chcesz zapisać jego logi?",
-                    color: Colors.Blurple,
-                    footer: {
-                        text: "© 2024 YourCompany",
-                        iconURL: client.user.displayAvatarURL(),
-                    }
-                }],
-                components: [
-                    new ActionRowBuilder()
-                        .addComponents(
-                            new ButtonBuilder().setCustomId('yes').setLabel('Tak').setStyle(ButtonStyle.Success),
-                            new ButtonBuilder().setCustomId('no').setLabel('Nie').setStyle(ButtonStyle.Danger)
-                        )
-                ]
-            });
-        } else if (interaction.customId === "yes") {
-            // Fetch ticket logs channel using environment variable
-            const ticketLogsChannel = client.channels.cache.get(process.env.ticket_logs);
+      // Automatically save ticket logs to the designated channel
+      await client.channels.cache.get(TICKET_LOGS).send({
+        embeds: [
+          {
+            title: 'Zgłoszenia',
+            description: `Ticket **${interaction.channel.name}** został zamknięty przez ${interaction.user}.\nPowyżej znajdują się jego logi!`,
+            color: Colors.Blurple,
+            footer: {
+              text: '© 2024 AmperHost',
+              iconURL: client.user.displayAvatarURL(),
+            },
+          },
+        ],
+        files: [await transcript.createTranscript(interaction.channel)],
+      })
 
-            if (!ticketLogsChannel) {
-                console.error(`[ERROR] Nie odnaleziono kanału z logami ticketów o ID ${process.env.ticket_logs}.`);
-                return;
-            }
+      // Send closure confirmation message with 5-second delay before channel deletion
+      await interaction.channel.send({
+        embeds: [
+          {
+            title: 'Zgłoszenia',
+            description: `Ticket zostanie automatycznie zamknięty za 5 sekund.`,
+            color: Colors.Blurple,
+            footer: {
+              text: '© 2024 AmperHost',
+              iconURL: client.user.displayAvatarURL(),
+            },
+          },
+        ],
+      })
 
-            // Send transcript to logs channel and delete ticket channel
-            await ticketLogsChannel.send({
-                embeds: [{
-                    title: "Zgłoszenia",
-                    description: `Nowy ticket został zamknięty (${interaction.channel.name}) przez ${interaction.user}`,
-                    color: Colors.Blurple,
-                    footer: {
-                        text: "© 2024 YourCompany",
-                        iconURL: client.user.displayAvatarURL(),
-                    }
-                }],
-                files: [await transcript.createTranscript(interaction.channel)]
-            });
-
-            await interaction.channel.send({
-                embeds: [{
-                    title: "Ticket System",
-                    description: `Ticket zamknięty przez ${interaction.user}`,
-                    color: Colors.Blurple,
-                    footer: {
-                        text: "Ticket System"
-                    }
-                }]
-            });
-
-            await interaction.channel.delete();
-        } else if (interaction.customId === "no") {
-            // Close the ticket without a transcript
-            interaction.channel.send({
-                embeds: [{
-                    title: "Ticket System",
-                    description: `Ticket zamknięty przez ${interaction.user}`,
-                    color: Colors.Blurple,
-                    footer: {
-                        text: "Ticket System"
-                    }
-                }]
-            });
-
-            await interaction.channel.delete();
-        }
+      // Wait for 5 seconds
+      setTimeout(async () => {
+        await interaction.channel.delete()
+      }, 5000)
     }
-};
+  },
+}

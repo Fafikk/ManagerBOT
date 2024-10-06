@@ -1,103 +1,80 @@
+// Import required modules
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 const net = require('net')
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('status')
-        .setDescription('Umożliwia sprawdzenie statusu serwerów'),
+  // Define the command data
+  data: new SlashCommandBuilder()
+    .setName('status')
+    .setDescription('Wyświetla status naszych usług.'),
 
-    async execute(interaction) {
-        function check_minecraft() {
-            return new Promise((resolve, reject) => {
-                const ip = ''
-                const port = 25565
+  // Execute function for the command
+  async execute(interaction) {
+    // Function to check service status using TCP connection
+    function checkService(ip, port) {
+      return new Promise((resolve, reject) => {
+        const socket = new net.Socket() // Create a new TCP socket
+        const startTime = Date.now() // Record the start time
 
-                const socket = new net.Socket()
-                const startTime = Date.now()
+        socket.setTimeout(2500) // Set timeout for the connection
 
-                socket.setTimeout(2500)
+        // Event handler for successful connection
+        socket.on('connect', () => {
+          const endTime = Date.now() // Record the end time
+          const responseTime = endTime - startTime // Calculate response time
+          socket.destroy() // Close the socket
+          resolve(responseTime) // Resolve the promise with response time
+        })
 
-                socket.on('connect', () => {
-                    const endTime = Date.now()
-                    const responseTime = endTime - startTime
-                    socket.destroy()
-                    resolve(responseTime)
-                })
+        // Event handler for timeout
+        socket.on('timeout', () => {
+          socket.destroy() // Close the socket
+          reject(new Error('timeout')) // Reject the promise with timeout error
+        })
 
-                socket.on('timeout', () => {
-                    socket.destroy()
-                    reject(new Error('timeout'))
-                })
+        // Event handler for connection errors
+        socket.on('error', (err) => {
+          reject(err) // Reject the promise with error
+        })
 
-                socket.on('error', (err) => {
-                    reject(err)
-                })
+        // Attempt to connect to the specified IP and port
+        socket.connect(port, ip)
+      })
+    }
 
-                socket.connect(port, ip)
-            })
-        }
+    let desc = '' // Initialize description for the embed
+    let color = 0x00ff00 // Default color (green)
 
-        function check_site() {
-            return new Promise((resolve, reject) => {
-                const ip = ''
-                const port = 80
+    // Define services to check
+    const services = [
+      { name: 'Strona WWW', ip: 'amperhost.pl', port: 80 },
+      { name: 'Panel', ip: 'dash.amperhost.pl', port: 80 },
+      { name: 'Węzeł N1', ip: 'n1.amperhost.pl', port: 8080 },
+    ]
 
-                const socket = new net.Socket()
-                const startTime = Date.now()
+    // Check each service
+    for (const service of services) {
+      try {
+        const responseTime = await checkService(service.ip, service.port) // Check the service status
+        desc += `- ${service.name}: ✅ Online (${responseTime} ms)\n` // Service is online
+      } catch (error) {
+        desc += `- ${service.name}: ❌ - Offline\n` // Service is offline
+        color = 0xff0000 // Change color to red if any service is offline
+      }
+    }
 
-                socket.setTimeout(2500)
+    // Create an embed with the service status
+    const embed = new EmbedBuilder()
+      .setTitle('Status usług')
+      .setAuthor({
+        name: interaction.user.username,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
+      .setDescription(desc) // Set the description with service status
+      .setTimestamp() // Set the current timestamp
+      .setColor(color) // Set the embed color based on service status
 
-                socket.on('connect', () => {
-                    const endTime = Date.now()
-                    const responseTime = endTime - startTime
-                    socket.destroy()
-                    resolve(responseTime)
-                })
-
-                socket.on('timeout', () => {
-                    socket.destroy()
-                    reject(new Error('timeout'))
-                })
-
-                socket.on('error', (err) => {
-                    reject(err)
-                })
-
-                socket.connect(port, ip)
-            })
-        }
-
-        let desc = ''
-        let color
-
-        try {
-            const responseTime = await check_site()
-            desc = `Strona internetowa: :white_check_mark: - ${responseTime} ms \n`
-            color = 0x00ff00
-        } catch (error) {
-            desc = 'Strona internetowa: :x: - Przekroczono czas oczekiwania. \n'
-            color = 0xff0000
-        }
-
-        try {
-            const responseTime = await check_minecraft()
-            desc += `Minecraft: :white_check_mark: - ${responseTime} ms`
-            color = 0x00ff00
-        } catch (error) {
-            desc += 'Minecraft: :x: - Przekroczono czas oczekiwania.'
-            color = 0xff0000
-        }
-
-        const embed = new EmbedBuilder()
-            .setTitle('Status serwerów')
-            .setAuthor({
-                name: interaction.user.username,
-                iconURL: interaction.user.displayAvatarURL(),
-            })
-            .setDescription(desc)
-            .setTimestamp()
-            .setColor(color)
-
-        await interaction.reply({ embeds: [embed] })
-    },
+    // Reply with the embed
+    await interaction.reply({ embeds: [embed] })
+  },
 }
