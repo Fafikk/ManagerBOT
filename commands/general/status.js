@@ -47,9 +47,8 @@ module.exports = {
 
     // Define services to check
     const services = [
-      { name: 'Strona WWW', ip: 'amperhost.pl', port: 80 },
-      { name: 'Panel', ip: 'dash.amperhost.pl', port: 80 },
-      { name: 'Węzeł N1', ip: 'n1.amperhost.pl', port: 8080 },
+      { name: 'Strona WWW', ip: '', port: 443 },
+      { name: 'Serwer minecraft', ip: '', port: 25565 },
     ]
 
     // Check each service

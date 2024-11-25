@@ -1,7 +1,6 @@
 // Import required modules
 const { ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js')
-const { exec } = require('child_process')
-const { GITHUB_CHANNEL, TICKET_CHANNEL } = require('../../config.js')
+const { TICKET_CHANNEL } = require('../../config.js')
 
 require('dotenv').config()
 require('colors')
@@ -64,36 +63,12 @@ module.exports = {
             '> Aby stworzyć zgłoszenie, kliknij przycisk poniżej. Pamiętaj, że na raz możesz mieć otwarty tylko jeden ticket! W tickecie prosimy o nie oznaczanie administracji.',
           color: color,
           footer: {
-            text: '© 2024 AmperHost',
+            text: '© 2024 ManagerBOT',
             iconURL: client.user.displayAvatarURL(),
           },
         },
       ],
       components: [new ActionRowBuilder().addComponents(selectMenu)],
     })
-
-    // Automatic 30 second git pull
-    setInterval(() => {
-      exec(`git pull`, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error executing git pull: ${error.message}`)
-          return
-        }
-
-        if (!stdout.includes('Already up to date.')) {
-          client.channels.cache
-            .get(GITHUB_CHANNEL)
-            .send(
-              `<t:${Math.floor(
-                Date.now() / 1000,
-              )}:f> Automatyczna aktualizacja z GitHuba, pobieram pliki...\n\`\`\`${stdout}\`\`\``,
-            )
-
-          setTimeout(() => {
-            process.exit()
-          }, 1000)
-        }
-      })
-    }, 30000)
   },
 }

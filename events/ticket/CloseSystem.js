@@ -44,7 +44,7 @@ module.exports = {
             description: `Ticket zostanie automatycznie zamknięty za 5 sekund.`,
             color: Colors.Blurple,
             footer: {
-              text: '© 2024 AmperHost',
+              text: '© 2024 ManagerBOT',
               iconURL: client.user.displayAvatarURL(),
             },
           },

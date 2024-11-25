@@ -90,7 +90,7 @@ module.exports = {
             description: `**🩵 Zgłoszenie użytkownika ${interaction.user} zostało pomyślnie utworzone!** \n\nDziękujemy za zgłoszenie, nasz zespół zajmie się Twoim problemem w możliwie najkrótszym czasie.\n\n- \`Typ zgłoszenia:\` **${type}**\n\n**Uwaga!** Nie pinguj administracji, ponieważ może to skutkować karą wyciszenia.`,
             color: color,
             footer: {
-              text: '© 2024 AmperHost',
+              text: '© 2024 ManagerBOT',
               iconURL: client.user.displayAvatarURL(),
             },
           },

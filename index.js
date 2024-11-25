@@ -9,7 +9,7 @@ const {
   ActivityType,
   Partials,
 } = require('discord.js')
-const { TOKEN, REACT_CHANNEL } = require('./config.js')
+const { TOKEN } = require('./config.js')
 
 // Load environment variables from .env file
 require('dotenv').config()
@@ -132,16 +132,6 @@ client.on('ready', () => {
 process.on('unhandledRejection', (error) => {
   if (error.code === 10062) return // Ignore specific error codes (optional)
   console.log(`[ERROR] ${error.message}`.red) // Log error message
-})
-
-client.on('messageCreate', async (message) => {
-  try {
-    if (message.channelId === REACT_CHANNEL) {
-      await message.react('❤️')
-    }
-  } catch (error) {
-    console.error(`[ERROR] ${error.message}`)
-  }
 })
 
 // Log the bot in using the token from config.js
