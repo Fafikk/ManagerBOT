@@ -61,3 +61,6 @@ node deploy.js
 ```bash
 node index.js
 ```
+
+# Copyright
+The ticket system has been taken from [github.com/t3mq/Ticket-Bot-V14](https://github.com/t3mq/Ticket-Bot-V14)
