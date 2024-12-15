@@ -50,28 +50,9 @@ const client = new Client({
 // Initialize commands collection
 client.commands = new Collection();
 
-// Initialize command handler
+// Initialize handlers
 require("./handlers/CommandHandler")(client);
-
-// Handle slash commands
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-
-  const command = client.commands.get(interaction.commandName);
-  if (!command) return;
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.log(`[ERROR] ${error.message}`);
-    const errorMessage = "An error occurred while executing the command.";
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({ content: errorMessage, ephemeral: true });
-    } else {
-      await interaction.reply({ content: errorMessage, ephemeral: true });
-    }
-  }
-});
+require("./handlers/EventHandler")(client);
 
 // Activity management
 const activities = [{ name: "Minecraft", type: ActivityType.Playing }];
@@ -83,9 +64,8 @@ const updateActivity = () => {
   currentActivityIndex = (currentActivityIndex + 1) % activities.length;
 };
 
-// Ready event
-client.on("ready", () => {
-  console.log(`[INFO] Logged in as ${client.user.tag}`);
+// Ready event handler for activity
+client.once("ready", () => {
   updateActivity();
   setInterval(updateActivity, 5000);
 });
