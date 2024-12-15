@@ -21,7 +21,7 @@ module.exports = {
 
     // Find and delete the old embed message if it exists
     const oldEmbedMessage = messages.find(
-      (msg) => msg.embeds.length > 0 && msg.embeds[0].title === "Zgłoszenia"
+      (msg) => msg.embeds.length > 0 && msg.embeds[0].title === "Zgłoszenia",
     );
     if (oldEmbedMessage) {
       await oldEmbedMessage.delete();
