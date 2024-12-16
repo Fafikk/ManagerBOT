@@ -51,19 +51,13 @@ cp .env.example .env
 
 - `TOKEN` with you application token from [Discord Developer Portal](https://discord.com/developers/applications),
 - `CLIENT_ID` with you client ID from [Discord Developer Portal](https://discord.com/developers/applications),
-- `ticket_channel` with channel ID where you want to have message with button, that create's ticket,
-- `ticket_category` with category ID where you want to have open ticket as channels,
-- `ticket_logs` with channel ID where you want to save logs, after closing ticket,
-- `support_team` with role ID that the administrators in charge of the tickets have,
-- `blacklist_role` with role ID that the blacklisted users have.
+- `TICKET_CHANNEL` with channel ID where you want to have message with button, that create's ticket,
+- `TICKET_CATEGORY` with category ID where you want to have open ticket as channels,
+- `TICKET_LOGS` with channel ID where you want to save logs, after closing ticket,
+- `SUPPORT_TEAM` with role ID that the administrators in charge of the tickets have,
+- `BLACKLIST_ROLE` with role ID that the blacklisted users have.
 
-5. Deploy slash commands to Your bot
-
-```bash
-node deploy.js
-```
-
-6. Start the bot
+5. Start the bot
 
 ```bash
 node index.js
