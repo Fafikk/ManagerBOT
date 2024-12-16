@@ -32,7 +32,7 @@ class CommandHandler {
           this.commands.push(command);
           this.client.commands.set(command.data.name, command);
           console.log(
-            `[INFO] Loaded command: ${command.data.name} (${category})`
+            `[INFO] Loaded command: ${command.data.name} (${category})`,
           );
         }
       }
@@ -50,7 +50,7 @@ class CommandHandler {
       });
 
       console.log(
-        `[SUCCESS] Successfully registered ${this.commands.length} commands!`
+        `[SUCCESS] Successfully registered ${this.commands.length} commands!`,
       );
     } catch (error) {
       console.error("[ERROR] Failed to register commands:", error);

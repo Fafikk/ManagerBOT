@@ -3,6 +3,7 @@
 `ManagerBOT` is a free, self-hosted, open source Discord bot, written using discord.js v14, that may help You manage your Discord server.
 
 # Features
+
 - General commands
 - Moderation
 - Tickets
@@ -22,45 +23,46 @@
 
 # Required dependencies
 
--   Node.js (v18 or higher)
--   NPM (v10 or higher)
--   Discord.js v14
+- Node.js (v18 or higher)
+- NPM (v10 or higher)
+- Discord.js v14
 
 # Installation
 
 1. Clone the git repository
+
 ```git
 git clone https://github.com/Fafikk/ManagerBOT.git
 ```
 
 2. Install node dependencies
+
 ```bash
 npm install
 ```
 
 3. Copy environment file
+
 ```bash
 cp .env.example .env
 ```
 
 4. Replace values in `.env`:
+
 - `TOKEN` with you application token from [Discord Developer Portal](https://discord.com/developers/applications),
 - `CLIENT_ID` with you client ID from [Discord Developer Portal](https://discord.com/developers/applications),
-- `ticket_channel` with channel ID where you want to have message with button, that create's ticket,
-- `ticket_category` with category ID where you want to have open ticket as channels,
-- `ticket_logs` with channel ID where you want to save logs, after closing ticket,
-- `support_team` with role ID that the administrators in charge of the tickets have,
-- `blacklist_role` with role ID that the blacklisted users have.
+- `TICKET_CHANNEL` with channel ID where you want to have message with button, that create's ticket,
+- `TICKET_CATEGORY` with category ID where you want to have open ticket as channels,
+- `TICKET_LOGS` with channel ID where you want to save logs, after closing ticket,
+- `SUPPORT_TEAM` with role ID that the administrators in charge of the tickets have,
+- `BLACKLIST_ROLE` with role ID that the blacklisted users have.
 
-5. Deploy slash commands to Your bot
-```bash
-node deploy.js
-```
+5. Start the bot
 
-6. Start the bot
 ```bash
 node index.js
 ```
 
 # Copyright
+
 The ticket system has been taken from [github.com/t3mq/Ticket-Bot-V14](https://github.com/t3mq/Ticket-Bot-V14)

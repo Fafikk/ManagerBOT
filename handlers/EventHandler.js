@@ -22,11 +22,11 @@ class EventHandler {
 
         if (event.once) {
           this.client.once(event.name, (...args) =>
-            event.execute(...args, this.client)
+            event.execute(...args, this.client),
           );
         } else {
           this.client.on(event.name, (...args) =>
-            event.execute(...args, this.client)
+            event.execute(...args, this.client),
           );
         }
 
