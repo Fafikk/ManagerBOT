@@ -1,59 +1,59 @@
-const { Colors } = require("discord.js");
-const transcript = require("discord-html-transcripts");
-const { TICKET_LOGS } = require("../../config.js");
+const { Colors } = require('discord.js')
+const transcript = require('discord-html-transcripts')
+const { TICKET_LOGS } = require('../../config.js')
 
-require("dotenv").config();
+require('dotenv').config()
 
 module.exports = {
-  name: "interactionCreate",
+  name: 'interactionCreate',
   once: false,
   execute: async (interaction, client) => {
     // Check if the interaction is a button
-    if (!interaction.isButton()) return;
+    if (!interaction.isButton()) return
 
     // Handle ticket closure
-    if (interaction.customId === "close") {
+    if (interaction.customId === 'close') {
       await interaction.reply({
         content:
-          "Ticket zostanie zamknięty za 5 sekund. Logi zostały zapisane.",
+          'Ticket zostanie zamknięty za 5 sekund. Logi zostały zapisane.',
         ephemeral: true,
-      });
+      })
 
       // Automatically save ticket logs to the designated channel
       await client.channels.cache.get(TICKET_LOGS).send({
         embeds: [
           {
-            title: "Zgłoszenia",
+            title: 'Zgłoszenia',
             description: `Ticket **${interaction.channel.name}** został zamknięty przez ${interaction.user}.\nPowyżej znajdują się jego logi!`,
             color: Colors.Blurple,
             footer: {
-              text: "© 2024 AmperHost",
+              text: '© 2024 AmperHost',
               iconURL: client.user.displayAvatarURL(),
             },
           },
         ],
         files: [await transcript.createTranscript(interaction.channel)],
-      });
+      })
 
       // Send closure confirmation message with 5-second delay before channel deletion
       await interaction.channel.send({
         embeds: [
           {
-            title: "Zgłoszenia",
+            title: 'Zgłoszenia',
             description: `Ticket zostanie automatycznie zamknięty za 5 sekund.`,
             color: Colors.Blurple,
             footer: {
-              text: "© 2024 ManagerBOT",
+              text: '© 2024 ManagerBOT',
               iconURL: client.user.displayAvatarURL(),
             },
           },
         ],
-      });
+      })
 
       // Wait for 5 seconds
       setTimeout(async () => {
-        await interaction.channel.delete();
-      }, 5000);
+        await interaction.channel.delete()
+      }, 5000)
     }
   },
-};
+}

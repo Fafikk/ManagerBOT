@@ -1,24 +1,24 @@
 // Import required modules
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
 module.exports = {
   // Define the command data
   data: new SlashCommandBuilder()
-    .setName("serverinfo")
-    .setDescription("Pokazuje informacje o serwerze."),
+    .setName('serverinfo')
+    .setDescription('Pokazuje informacje o serwerze.'),
 
   // Execute function for the command
   async execute(interaction) {
-    const guild = interaction.guild; // Get the guild (server) from interaction
-    const owner = await guild.fetchOwner(); // Fetch the server owner
-    const createdTimestamp = Math.floor(guild.createdTimestamp / 1000); // Get server creation timestamp
+    const guild = interaction.guild // Get the guild (server) from interaction
+    const owner = await guild.fetchOwner() // Fetch the server owner
+    const createdTimestamp = Math.floor(guild.createdTimestamp / 1000) // Get server creation timestamp
 
     // Function to generate a random color
     function generate_color() {
-      const random1 = Math.floor(Math.random() * 255);
-      const random2 = Math.floor(Math.random() * 255);
-      const random3 = Math.floor(Math.random() * 255);
-      return [random1, random2, random3]; // Return the random RGB values
+      const random1 = Math.floor(Math.random() * 255)
+      const random2 = Math.floor(Math.random() * 255)
+      const random3 = Math.floor(Math.random() * 255)
+      return [random1, random2, random3] // Return the random RGB values
     }
 
     // Create an embed with server information
@@ -28,43 +28,43 @@ module.exports = {
       .setThumbnail(guild.iconURL({ dynamic: true })) // Set the server icon as thumbnail
       .addFields(
         {
-          name: "Właściciel",
+          name: 'Właściciel',
           value: `${owner.user.tag}`, // Owner's tag
           inline: true,
         },
-        { name: "ID serwera", value: guild.id, inline: true }, // Server ID
+        { name: 'ID serwera', value: guild.id, inline: true }, // Server ID
         {
-          name: "Serwer utworzony",
+          name: 'Serwer utworzony',
           value: `<t:${createdTimestamp}:F>`, // Creation date
           inline: true,
         },
         {
-          name: "Ilość członków",
+          name: 'Ilość członków',
           value: `${guild.memberCount}`, // Member count
           inline: true,
         },
         {
-          name: "Ilość ról",
+          name: 'Ilość ról',
           value: `${guild.roles.cache.size}`, // Role count
           inline: true,
         },
         {
-          name: "Ilość kanałów",
+          name: 'Ilość kanałów',
           value: `${guild.channels.cache.size}`, // Channel count
           inline: true,
         },
         {
-          name: "Poziom ulepszenia",
+          name: 'Poziom ulepszenia',
           value: `${guild.premiumTier}`, // Premium tier level
           inline: true,
         },
         {
-          name: "Ilość ulepszeń",
+          name: 'Ilość ulepszeń',
           value: `${guild.premiumSubscriptionCount || 0}`, // Number of boosts
           inline: true,
         },
         {
-          name: "Poziom weryfikacji",
+          name: 'Poziom weryfikacji',
           value: `${guild.verificationLevel}`, // Verification level
           inline: true,
         },
@@ -73,9 +73,9 @@ module.exports = {
         text: `Na żądanie ${interaction.user.tag}`, // Footer with requestor's tag
         iconURL: interaction.user.displayAvatarURL({ dynamic: true }), // Requestor's avatar
       })
-      .setTimestamp(); // Set current timestamp
+      .setTimestamp() // Set current timestamp
 
     // Reply with the embed
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] })
   },
-};
+}

@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config()
 
 module.exports = {
   TOKEN: process.env.TOKEN,
@@ -8,4 +8,4 @@ module.exports = {
   TICKET_LOGS: process.env.TICKET_LOGS,
   SUPPORT_TEAM: process.env.SUPPORT_TEAM,
   BLACKLIST_ROLE: process.env.BLACKLIST_ROLE,
-};
+}
